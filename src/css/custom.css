@@ -1,0 +1,11 @@
+body{
+    background-color: #232323;
+}
+
+.canvasLeft:active{
+    transform: scale(2) translate(20%, 20%);
+}
+
+.canvasRight:active{
+    transform: scale(2) translate(-20%, 20%);
+}

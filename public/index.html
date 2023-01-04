@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>openCV</title>
+    <link rel="icon" href="./media/opencv_logo.png">
+</head>
+<body>
+<script async src="./openCV/opencv.js" type="text/javascript"></script>
+
+<div class="container text-center">
+
+    <div class="row" style="margin-top: 5%">
+
+        <div class="col-4 text-start">
+            <img alt="logo" src="./media/opencv_logo.png" style="max-height: 50px"/>
+        </div>
+
+        <div class="col-4 text-center">
+            <button id="histBtn" class="btn btn-sm btn-danger" disabled>histogram</button>
+        </div>
+
+        <div class="col-4 text-end">
+            <div id="readyInfo" class="alert alert-success" role="alert" style="display: none !important;">
+                Loaded! Camera is on!
+            </div>
+        </div>
+    </div>
+
+    <!--MAIN-->
+    <div class="row" style="margin-top: 2%">
+        <div class="col-xxl-6">
+            <canvas id="videoToCanvas" class="rounded canvasLeft"></canvas>                <!--video stream to canvas-->
+        </div>
+
+        <div class="col-xxl-6">
+            <canvas id="histogramCanvas" class="rounded canvasRight"></canvas>              <!--histogram-->
+        </div>
+    </div>
+
+    <!--HELPER-->
+    <div >
+        <video id="video" hidden></video>                   <!--video stream HIDDEN-->
+    </div>
+
+</div>
+
+<script src="./bundle.js"></script>
+</body>
+</html>
