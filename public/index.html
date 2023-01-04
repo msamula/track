@@ -13,11 +13,13 @@
     <div class="row" style="margin-top: 5%">
 
         <div class="col-4 text-start">
-            <img alt="logo" src="./media/opencv_logo.png" style="max-height: 50px"/>
+            <img alt="logo" src="./media/opencv_logo.png" style="max-height: 100px"/>
         </div>
 
         <div class="col-4 text-center">
-            <button id="histBtn" class="btn btn-sm btn-danger" disabled>histogram</button>
+            <button id="restartBtn" class="btn btn-sm btn-danger">restart</button>
+            <button id="trackBtn" class="btn btn-sm btn-primary" disabled>track</button>
+            <button id="refreshBtn" class="btn btn-sm btn-success">refesh</button>
         </div>
 
         <div class="col-4 text-end">
@@ -38,9 +40,27 @@
         </div>
     </div>
 
+    <div class="row" style="margin-top: 2%">
+        <div class="col-xxl-6">
+            <canvas id="backProjectionCanvas" class="rounded canvasLeft"></canvas>
+        </div>
+
+        <div class="col-xxl-6">
+            <canvas id="output" class="rounded canvasRight"></canvas>
+        </div>
+    </div>
+
     <!--HELPER-->
     <div >
-        <video id="video" hidden></video>                   <!--video stream HIDDEN-->
+        <div class="outsideWrapper">
+            <div class="insideWrapper">
+                <video class="rounded coveredImage" id="video" hidden></video>                      <!--video stream HIDDEN-->
+                <canvas class="rounded coveringCanvas" id="aoi"></canvas>
+            </div>
+        </div>
+
+        <canvas id="imageToCanvas" hidden></canvas>         <!--image to canvas-->
+        <canvas id="coloredCanvas" class="coloredCanvas"></canvas>         <!--image to canvas-->
     </div>
 
 </div>
