@@ -46,21 +46,26 @@
         </div>
 
         <div class="col-xxl-6">
-            <canvas id="output" class="rounded canvasRight"></canvas>
+            <canvas id="output" class="rounded canvasRightHover"></canvas>
         </div>
+    </div>
+
+    <div class="row" style="margin-top: 2%">
+        <canvas id="gameCanvas" class="rounded" style="background-color: black"></canvas>
     </div>
 
     <!--HELPER-->
     <div >
-        <div class="outsideWrapper">
-            <div class="insideWrapper">
-                <video class="rounded coveredImage" id="video" hidden></video>                      <!--video stream HIDDEN-->
-                <canvas class="rounded coveringCanvas" id="aoi"></canvas>
-            </div>
-        </div>
-
+        <video class="rounded" id="video" hidden></video>                      <!--video stream HIDDEN-->
         <canvas id="imageToCanvas" hidden></canvas>         <!--image to canvas-->
-        <canvas id="coloredCanvas" class="coloredCanvas"></canvas>         <!--image to canvas-->
+        <canvas id="coloredCanvas" class="rounded coloredCanvas"></canvas>         <!--image to canvas-->
+        <p id="textOutput1" class="text-start" style="color: white; margin-top: 10%"></p>
+        <p id="textOutput2" class="text-start" style="color: white; margin-top: 0%"></p>
+        <p id="textOutput3" class="text-start" style="color: white; margin-top: 0%"></p>
+        <p id="textOutput4" class="text-start" style="color: white; margin-top: 0%"></p>
+        <p id="textOutput5" class="text-start" style="color: white; margin-top: 0%"></p>
+
+        <img id="monkey" src="./media/monkey.png" hidden>
     </div>
 
 </div>
