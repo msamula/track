@@ -1,128 +1,121 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/custom.css';
-import {histogram} from "./openCVFunctions/histogram";
-import {backProjection, initBackProjection} from "./openCVFunctions/histogramBackProjection";
-import {initTemplateMatching, templateMatching} from "./openCVFunctions/templateMatching";
+//import {histogram} from "./openCVFunctions/histogram";
+//import {backProjection, initBackProjection} from "./openCVFunctions/histogramBackProjection";
+//import {initTemplateMatching, templateMatching} from "./openCVFunctions/templateMatching";
 import {camShift, initCamShift} from "./openCVFunctions/camShift";
 import {initialCanvas} from "./openCVFunctions/initialCanvas";
 import {initGameCanvas, play} from "./game/game";
+import {cssRoot} from "./not used/functions";
 
+/*BUTTON EVENTS*/
 const trackBtn = document.getElementById('trackBtn');
-const refresh = document.getElementById('refreshBtn');
-
-
-const readyInfo = document.getElementById('readyInfo');
-
-const video = document.getElementById('video');
-
-const coloredCanvas = document.getElementById('coloredCanvas');
-
-const videoToCanvas = document.getElementById('videoToCanvas');
-const videoToCanvasCtx = videoToCanvas.getContext('2d', {willReadFrequently: true});
-
-const histogramCanvas = document.getElementById('histogramCanvas');
-const backProjectionCanvas = document.getElementById('backProjectionCanvas');
-const output = document.getElementById('output');
-
-const gameCanvas = document.getElementById('gameCanvas');
-
-
-const scale = 2;
-const maxFrames = Infinity;
-
-let initialCanvasInterval;
-
-let counter = 0;
-
-trackBtn.addEventListener('click', ()=>{
-    video.hidden = true;
-    coloredCanvas.hidden = true;
-    refresh.hidden = true;
-    initCamShift(scale);
-    run();
-});
-
-refresh.addEventListener('click', ()=>{
-    initialCanvas(scale);
-});
 
 document.getElementById('restartBtn').addEventListener('click',()=>{
     location.reload();
 });
 
+/*DIVERSE*/
+const video = document.getElementById('video');
+
+/*CANVAS ELEMENTS*/
+
+const coloredCanvas = document.getElementById('coloredCanvas');
+const videoToCanvas = document.getElementById('videoToCanvas');
+
+//const histogramCanvas = document.getElementById('histogramCanvas');
+//const backProjectionCanvas = document.getElementById('backProjectionCanvas');
+
+const output = document.getElementById('output');
+const gameCanvas = document.getElementById('gameCanvas');
+
+const videoToCanvasCtx = videoToCanvas.getContext('2d', {willReadFrequently: true});
+
+/*SETTINGS*/
+
+const scale = 1.5;
+const maxFrames = Infinity;
+let frameCounter = 0;
+const rectWidthHeight = 120;
+let rectPoints;
+let initialCanvasInterval;
+
+trackBtn.addEventListener('click', ()=>{
+
+    video.hidden            = true;
+    videoToCanvas.hidden    = true;
+    coloredCanvas.hidden    = true;
+    gameCanvas.hidden       = false;
+
+    trackBtn.disabled       = true;
+
+    clearInterval(initialCanvasInterval);
+
+    initCamShift(scale, rectPoints, rectWidthHeight);
+
+    run();
+});
+
+
 async function run(){
 
-    if(counter > 0){
-        trackBtn.disabled = true;
-    }
-
-    if(counter === maxFrames){
-        counter = 0;
+    if(frameCounter === maxFrames){
+        frameCounter = 0;
         trackBtn.disabled = false;
         return;
     }
 
-    clearInterval(initialCanvasInterval);
-
-    await videoToCanvasCtx.drawImage(video, 0, 0, videoToCanvas.width, videoToCanvas.height);
-    await histogram(videoToCanvas, histogramCanvas);
-    await backProjection(videoToCanvas, backProjectionCanvas);
+    /*OPENCV FUNCTIONS*/
+    //await videoToCanvasCtx.drawImage(video, 0, 0, videoToCanvas.width, videoToCanvas.height);
+    //await histogram(videoToCanvas, histogramCanvas);
+    //await backProjection(videoToCanvas, backProjectionCanvas);
     //await templateMatching(videoToCanvas, output);
 
-    let [center, size] = await camShift(output);
+    let center = await camShift(output);
 
-    await play((center.x).toFixed(0), (center.y).toFixed(0), (size.width).toFixed(0), (size.height).toFixed(0));
+    await play((center.x).toFixed(0), (center.y).toFixed(0));
 
-    counter++;
+    frameCounter++;
 
-    setTimeout(run, 1);
+    setTimeout(run,1);
 }
 
-function resizeImage(scale){
 
-    document.documentElement.style.setProperty('--width', `${video.videoWidth / scale}px`);
-}
+
 
 function initialOpenCV(){
-    setTimeout(()=>{
 
-        initBackProjection(videoToCanvas);
+    initGameCanvas();
 
-        initGameCanvas(gameCanvas.width, gameCanvas.height);
+    //initBackProjection(videoToCanvas);
+    //initTemplateMatching(videoToCanvas, output);
 
-        //initTemplateMatching(videoToCanvas, output);
-
-        readyInfo.setAttribute('style', 'display: flex !important; max-height: 70px; max-width: 200px; padding: 0px 0px 0px 15px');
-
-        initialCanvasInterval = setInterval(()=>{
-
-            initialCanvas(scale);
-        },84);
-
-        setTimeout(()=>{
-            readyInfo.setAttribute('style', 'display: none !important;');
-        },2000);
-
-    },700);
+    initialCanvasInterval = setInterval(()=>{
+        rectPoints = initialCanvas(scale, rectWidthHeight);
+    },33.33);
 }
 
-/*MAIN*/
-navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    .then(function(stream) {
-        video.srcObject = stream;
-        video.play();
-    })
+function main(){
 
-video.onloadeddata = () => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+        })
 
-    gameCanvas.width = videoToCanvas.width  = output.width  = video.videoWidth / scale;
-    gameCanvas.height = videoToCanvas.height = output.height = video.videoHeight / scale;
+    video.onloadeddata = () => {
 
-    resizeImage(scale);
+        gameCanvas.width  = videoToCanvas.width  = output.width  = video.videoWidth / scale;
+        gameCanvas.height = videoToCanvas.height = output.height = video.videoHeight / scale;
 
-    trackBtn.disabled = false;
-    video.hidden = false;
+        trackBtn.disabled = false;
 
-    initialOpenCV();
+        initialOpenCV();
+    }
 }
+
+
+document.getElementById('openCV').onload = main;
+
+

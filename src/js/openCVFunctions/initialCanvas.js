@@ -1,61 +1,78 @@
-let video, cap, frame, hsvRoi, test;
+let video, cap, frame, hsvRoi, coloredCanvas, initialized = false;
 
-let pts = [
-    {
-        x: 0,
-        y: 0
-    },
-    {
-        x: 100,
-        y: 0
-    },
-    {
-        x: 100,
-        y: 100
-    },
-    {
-        x: 0,
-        y: 100
-    }
-];
+let rectPoints, textPosition;
 
-let loaded = false;
+const thickness = 1;
+const color = [0, 255, 0, 255];
+const textColor = [255, 0, 0, 255];
+const fontSize = 0.5;
 
-export function initialCanvas(scale) {
 
-    if(!loaded){
+/*BLUR*/
+let ksize;
+let anchor;
+
+
+export function initialCanvas(scale, rectWidthHeight) {
+
+    if(!initialized){
+
         video = document.getElementById('video');
-        test = document.getElementById('coloredCanvas');
+        coloredCanvas = document.getElementById('coloredCanvas');
 
-        video.height = test.width = video.videoHeight / scale;
-        video.width = test.height = video.videoWidth / scale;
+        let height = video.height = coloredCanvas.height = video.videoHeight / scale;
+        let width = video.width  = coloredCanvas.width = video.videoWidth / scale;
 
-        loaded = true;
+        rectPoints = [
+            {
+                x: width/2 - rectWidthHeight/2, y: height/2-rectWidthHeight/2
+            },
+            {
+                x: width/2 + rectWidthHeight/2, y: height/2-rectWidthHeight/2
+            },
+            {
+                x: width/2 + rectWidthHeight/2, y: height/2+rectWidthHeight/2
+            },
+            {
+                x: width/2 - rectWidthHeight/2, y: height/2+rectWidthHeight/2
+            },
+        ]
+
+        textPosition = {
+            x: width/2-20, y: height/2+50
+        }
+
+        cap = new cv.VideoCapture(video);
+        frame = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+
+        ksize = new cv.Size(4, 4);
+        anchor = new cv.Point(-1,-1);
+
+        initialized = true;
     }
 
-    cap = new cv.VideoCapture(video);
-
-    frame = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     cap.read(frame);
 
     hsvRoi = new cv.Mat();
 
     cv.cvtColor(frame, hsvRoi, cv.COLOR_RGBA2RGB);
     cv.cvtColor(hsvRoi, hsvRoi, cv.COLOR_RGB2HSV);
-    //cv.cvtColor(hsvRoi, hsvRoi, cv.COLOR_RGB2HLS);
 
-    cv.line(hsvRoi, pts[0], pts[1], [0, 255, 0, 255], 1);
-    cv.line(hsvRoi, pts[1], pts[2], [0, 255, 0, 255], 1);
-    cv.line(hsvRoi, pts[2], pts[3], [0, 255, 0, 255], 1);
-    cv.line(hsvRoi, pts[3], pts[0], [0, 255, 0, 255], 1);
-    cv.line(hsvRoi, pts[0], pts[2], [0, 255, 0, 50], 1);
-    cv.line(hsvRoi, pts[3], pts[1], [0, 255, 0, 50], 1);
 
-    let pt = {
-        x: 30,
-        y: 60
-    };
+    cv.line(hsvRoi, rectPoints[0], rectPoints[1], color, thickness);
+    cv.line(hsvRoi, rectPoints[1], rectPoints[2], color, thickness);
+    cv.line(hsvRoi, rectPoints[2], rectPoints[3], color, thickness);
+    cv.line(hsvRoi, rectPoints[3], rectPoints[0], color, thickness);
+    cv.line(hsvRoi, rectPoints[0], rectPoints[2], color, thickness);
+    cv.line(hsvRoi, rectPoints[3], rectPoints[1], color, thickness);
 
-    cv.putText(hsvRoi, 'object', pt, cv.FONT_HERSHEY_SIMPLEX , 0.5, [0, 255, 0, 255], 1, cv.LINE_AA);
+    cv.putText(hsvRoi, 'object', textPosition, cv.FONT_HERSHEY_SIMPLEX , fontSize, textColor, thickness, cv.LINE_AA);
+
+    //cv.blur(hsvRoi, hsvRoi, ksize, anchor, cv.BORDER_DEFAULT);
+
     cv.imshow(coloredCanvas, hsvRoi);
+
+    hsvRoi.delete();
+
+    return rectPoints[0];
 }

@@ -1,13 +1,6 @@
 let video, cap, frame, trackWindow, trackBox, dst, roiHist, termCrit, hsv, hsvVec;
 
-let textOutput1, textOutput2, textOutput3, textOutput4, textOutput5;
-
-export function initCamShift(scale){
-    textOutput1 = document.getElementById('textOutput1');
-    textOutput2 = document.getElementById('textOutput2');
-    textOutput3 = document.getElementById('textOutput3');
-    textOutput4 = document.getElementById('textOutput4');
-    textOutput5 = document.getElementById('textOutput5');
+export function initCamShift(scale, rectPoints, rectWidthHeight){
 
     video = document.getElementById('video');
 
@@ -21,10 +14,8 @@ export function initCamShift(scale){
     frame = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     cap.read(frame);
 
-
-
 // hardcode the initial location of window
-    trackWindow = new cv.Rect(0, 0, 100, 100);
+    trackWindow = new cv.Rect(rectPoints.x, rectPoints.y, rectWidthHeight, rectWidthHeight);
 
 // set up the ROI for tracking
     let roi = frame.roi(trackWindow);
@@ -77,25 +68,19 @@ export function camShift(output) {
 
      [trackBox, trackWindow] = cv.CamShift(dst, trackWindow, termCrit);
 
-     //textOutput1.innerHTML = `angle: ${(trackBox.angle).toFixed(1)} `;
-     //textOutput2.innerHTML = `centerX: ${trackBox.center.x}`;
-     //textOutput3.innerHTML = `centerX: ${trackBox.center.y}`;
-     //textOutput4.innerHTML = `Width: ${(trackBox.size.width).toFixed(1)}`;
-     //textOutput5.innerHTML = `Height: ${(trackBox.size.height).toFixed(1)}`;
-
-     let pt = {
+     let textPos1 = {
          x: trackBox.center.x+10,
          y: trackBox.center.y+10
      }
 
-    let pt2 = {
+    let textPos2 = {
         x: trackBox.center.x+10,
         y: trackBox.center.y+30
     }
 
      cv.circle(frame, trackBox.center, 1, [255, 0, 0, 255], 5);
-     cv.putText(frame, `width ${(trackBox.size.width).toFixed(0)}`, pt, cv.FONT_HERSHEY_SIMPLEX , 0.5, [0, 255, 0, 255], 1.5, cv.LINE_AA);
-     cv.putText(frame, `height ${(trackBox.size.height).toFixed(0)}`, pt2, cv.FONT_HERSHEY_SIMPLEX , 0.5, [0, 255, 0, 255], 1.5, cv.LINE_AA);
+     cv.putText(frame, `width ${(trackBox.size.width).toFixed(0)}`, textPos1, cv.FONT_HERSHEY_SIMPLEX , 0.5, [0, 255, 0, 255], 1.5, cv.LINE_AA);
+     cv.putText(frame, `height ${(trackBox.size.height).toFixed(0)}`, textPos2, cv.FONT_HERSHEY_SIMPLEX , 0.5, [0, 255, 0, 255], 1.5, cv.LINE_AA);
 
      let pts = cv.rotatedRectPoints(trackBox);
      cv.line(frame, pts[0], pts[1], [255, 0, 0, 255], 1);
@@ -104,6 +89,6 @@ export function camShift(output) {
      cv.line(frame, pts[3], pts[0], [255, 0, 0, 255], 1);
      cv.imshow(output, frame);
 
-     return [trackBox.center, trackBox.size];
+     return trackBox.center;
 }
 

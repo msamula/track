@@ -1,50 +1,40 @@
-let gameCanvas, ctx, canvasData, image, enemy;
-
-function drawPixel (x, y) {
-
-    let index = (x + y * gameCanvas.width) * 4;
-
-    canvasData.data[index]      = 255;
-    canvasData.data[index + 1]  =  34;
-    canvasData.data[index + 2]  =   0;
-    canvasData.data[index + 3]  = 255;
-}
-
-export function initGameCanvas(width, height){
-
-    gameCanvas = document.getElementById('gameCanvas');
-
-    gameCanvas.width  = 480;
-    gameCanvas.height = 270;
-
-    ctx = gameCanvas.getContext("2d", {willReadFrequently: true});
-
-    ctx.font = "48px sans-serif";
-    ctx.fillStyle = "red";
-
-    image = new Image();
-    enemy = new Image();
-    //image.src = './media/auto.png';
-    image.src = './media/monkey.png';
-    enemy.src = './media/enemy.png';
-
-    console.log('Initial game finished');
-}
+let gameCanvas, ctx, image, enemy;
 
 let enemyXPos;
 let enemyYPos = 0;
 
+let maxFruits = 5;
 let counter = 0;
-
 let touched = false;
 
-export function play( x, y, width, height){
+export function initGameCanvas(){
+
+    gameCanvas = document.getElementById('gameCanvas');
+
+    ctx = gameCanvas.getContext("2d", {willReadFrequently: true});
+
+    ctx.font = "30px sans-serif";
+    ctx.fillStyle = "red";
+
+    image = new Image();
+    enemy = new Image();
+
+    image.src = './media/monkey.png';
+
+    console.log('Initial game finished');
+}
+
+
+
+export function play( x, y){
 
     if(enemyYPos > gameCanvas.height && touched === false){
         counter = 0;
     }
 
     if(enemyYPos > gameCanvas.height){
+
+        enemy.src = `./media/${Math.floor(Math.random() * (maxFruits - 1 + 1) + 1)}.png`;
         enemyXPos = Math.floor(Math.random() * gameCanvas.width-30) + 30;
         enemyYPos = 0;
         touched = false;
@@ -52,7 +42,7 @@ export function play( x, y, width, height){
 
     ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 
-    ctx.fillText(`${counter}`, 10, 50);
+    ctx.fillText(`${counter}`, 5, 30);
 
     if(!touched){
         ctx.drawImage(enemy, enemyXPos , enemyYPos, 50, 50);
@@ -70,9 +60,7 @@ export function play( x, y, width, height){
 
     if(counter > 9){
         enemyYPos++;
-    }
-    if(counter > 5){
-        enemyYPos++;
+
     }
     enemyYPos++;
 }

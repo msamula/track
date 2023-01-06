@@ -6,7 +6,8 @@
     <link rel="icon" href="./media/opencv_logo.png">
 </head>
 <body>
-<script async src="./openCV/opencv.js" type="text/javascript"></script>
+<script id="openCV" async src="./openCV/opencv.js" type="text/javascript"></script>
+
 
 <div class="container text-center">
 
@@ -18,56 +19,45 @@
 
         <div class="col-4 text-center">
             <button id="restartBtn" class="btn btn-sm btn-danger">restart</button>
-            <button id="trackBtn" class="btn btn-sm btn-primary" disabled>track</button>
-            <button id="refreshBtn" class="btn btn-sm btn-success">refesh</button>
+            <button id="trackBtn" class="btn btn-sm btn-primary">track</button>
         </div>
 
-        <div class="col-4 text-end">
-            <div id="readyInfo" class="alert alert-success" role="alert" style="display: none !important;">
-                Loaded! Camera is on!
-            </div>
+        <div class="col-4">
         </div>
+
     </div>
 
     <!--MAIN-->
-    <div class="row" style="margin-top: 2%">
+    <div class="row" style="margin-top: 10%">
         <div class="col-xxl-6">
+            <video class="rounded" id="video"></video>                           <!--video stream HIDDEN-->
             <canvas id="videoToCanvas" class="rounded canvasLeft"></canvas>                <!--video stream to canvas-->
         </div>
 
-        <div class="col-xxl-6">
-            <canvas id="histogramCanvas" class="rounded canvasRight"></canvas>              <!--histogram-->
+<!--        <div class="col-xxl-6">
+            <canvas id="histogramCanvas" class="rounded canvasRight"></canvas>              &lt;!&ndash;histogram&ndash;&gt;
         </div>
     </div>
 
     <div class="row" style="margin-top: 2%">
         <div class="col-xxl-6">
             <canvas id="backProjectionCanvas" class="rounded canvasLeft"></canvas>
-        </div>
+        </div>-->
 
         <div class="col-xxl-6">
-            <canvas id="output" class="rounded canvasRightHover"></canvas>
+            <canvas id="coloredCanvas" class="rounded coloredCanvas"></canvas>          <!--image to canvas-->
+            <canvas id="output" class="rounded canvasRight"></canvas>
         </div>
     </div>
 
     <div class="row" style="margin-top: 2%">
-        <canvas id="gameCanvas" class="rounded" style="background-color: black"></canvas>
+        <canvas id="gameCanvas" class="rounded" style="background-color: black" hidden></canvas>
     </div>
 
-    <!--HELPER-->
+<!--    &lt;!&ndash;HELPER&ndash;&gt;
     <div >
-        <video class="rounded" id="video" hidden></video>                      <!--video stream HIDDEN-->
-        <canvas id="imageToCanvas" hidden></canvas>         <!--image to canvas-->
-        <canvas id="coloredCanvas" class="rounded coloredCanvas"></canvas>         <!--image to canvas-->
-        <p id="textOutput1" class="text-start" style="color: white; margin-top: 10%"></p>
-        <p id="textOutput2" class="text-start" style="color: white; margin-top: 0%"></p>
-        <p id="textOutput3" class="text-start" style="color: white; margin-top: 0%"></p>
-        <p id="textOutput4" class="text-start" style="color: white; margin-top: 0%"></p>
-        <p id="textOutput5" class="text-start" style="color: white; margin-top: 0%"></p>
-
-        <img id="monkey" src="./media/monkey.png" hidden>
-    </div>
-
+        <canvas id="imageToCanvas" hidden></canvas>                                 &lt;!&ndash;image to canvas&ndash;&gt;
+    </div>-->
 </div>
 
 <script src="./bundle.js"></script>

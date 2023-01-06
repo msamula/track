@@ -1,14 +1,16 @@
+:root{
+    --width: 0px;
+    --height: 0px;
+}
+
 body{
     background-color: #232323;
 }
 
-video{
-    transform:  scale(1.5) translate(-20%, -280%);
+button{
+    width: 200px;
 }
 
-.coloredCanvas{
-    transform:  scale(1.5) translate(50%, -280%);
-}
 
 .canvasLeft:active{
     transform: scale(2) translate(20%, 10%);
@@ -18,14 +20,15 @@ video{
     transform: scale(2) translate(-20%, 10%);
 }
 
-.canvasRightHover:hover{
-    transform: scale(4.5) translate(-15%, 0%);
+canvas{
+    transform: scaleX(-1);
 }
 
-/*canvas{
+video {
     transform: scaleX(-1);
-}*/
+}
 
 #gameCanvas:hover{
-    transform: translate( 0%, -60%) scale(1.8) /*scaleX(-1)*/;
+    transform: translate( 0%, -40%) scale(1.5) scaleX(-1);
+    opacity: 80%;
 }
