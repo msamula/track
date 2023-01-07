@@ -110,6 +110,8 @@ function main(){
         gameCanvas.width  = videoToCanvas.width  = output.width  = video.videoWidth / scale;
         gameCanvas.height = videoToCanvas.height = output.height = video.videoHeight / scale;
 
+        cssRoot(),
+
         trackBtn.disabled = false;
 
         initialOpenCV();

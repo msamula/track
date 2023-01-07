@@ -1,6 +1,8 @@
-function resizeImage(width, height){
+function changeCSS(width, height, scale){
     document.documentElement.style.setProperty('--width', `${width}px`);
-    document.documentElement.style.setProperty('--width', `${height}px`);
+    document.documentElement.style.setProperty('--height', `${height}px`);
+
+    document.documentElement.style.setProperty('--scale', `${scale}`);
 }
 
 function getWindowWidth() {
@@ -24,5 +26,12 @@ function getWindowHeight() {
 }
 
 export function cssRoot(){
-    resizeImage(getWindowWidth(),getWindowHeight());
+    let video = document.getElementById('video');
+
+    let windowWidth = getWindowWidth();
+    let windowHeight = getWindowHeight();
+
+    let scale = (windowHeight * 0.6) / video.videoHeight;
+
+    changeCSS(windowWidth,windowHeight, scale);
 }

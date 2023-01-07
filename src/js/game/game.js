@@ -58,8 +58,8 @@ export function play( x, y){
         }
     }
 
-    if(counter > 9){
-        enemyYPos++;
+    if(counter > 5){
+        enemyYPos+=2;
 
     }
     enemyYPos+=3;

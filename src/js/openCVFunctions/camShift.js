@@ -1,4 +1,3 @@
-import {rgbaColorPicker} from "../helper/colorPicker";
 
 let video, cap, frame, trackWindow, trackBox, dst, roiHist, termCrit, hsv, hsvVec;
 
@@ -28,8 +27,8 @@ export function initCamShift(scale, rectPoints, rectWidthHeight, rgba){
 
 
     let mask = new cv.Mat();
-    let lowScalar =  new cv.Scalar(rgba[0]-8, rgba[1]-8, rgba[2]-8);
-    let highScalar = new cv.Scalar(rgba[0]+8, rgba[1]+8, rgba[2]+8);
+    let lowScalar =  new cv.Scalar(rgba[0]-10, rgba[1]-10, rgba[2]-10);
+    let highScalar = new cv.Scalar(rgba[0]+10, rgba[1]+10, rgba[2]+10);
     let low = new cv.Mat(hsvRoi.rows, hsvRoi.cols, hsvRoi.type(), lowScalar);
     let high = new cv.Mat(hsvRoi.rows, hsvRoi.cols, hsvRoi.type(), highScalar);
 
