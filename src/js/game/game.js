@@ -62,5 +62,5 @@ export function play( x, y){
         enemyYPos++;
 
     }
-    enemyYPos++;
+    enemyYPos+=3;
 }

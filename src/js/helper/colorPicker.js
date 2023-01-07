@@ -1,16 +1,8 @@
-function drawPixel (canvasData, x, y, imgWidth) {
-
-    let index = (x + y * imgWidth) * 4;
-
-    console.log(canvasData.data[index],canvasData.data[index+1],canvasData.data[index+2]);
-
-}
-
-export function colorPicker(canvas, x, y) {
+export function rgbaColorPicker(canvas, x, y) {
 
     let ctx = canvas.getContext('2d', { willReadFrequently: true });
-
     let canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let index = (x + y * canvas.width) * 4;
 
-    drawPixel(canvasData, x, y, canvas.width);
+    return [canvasData.data[index],canvasData.data[index+1],canvasData.data[index+2],canvasData.data[index+3]];
 }

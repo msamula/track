@@ -1,4 +1,5 @@
-import {colorPicker} from "../helper/colorPicker";
+import {rgbaColorPicker} from "../helper/colorPicker";
+
 
 let video, cap, frame, hsvRoi, coloredCanvas, initialized = false;
 
@@ -60,7 +61,9 @@ export function initialCanvas(scale, rectWidthHeight) {
     cv.cvtColor(frame, hsvRoi, cv.COLOR_RGBA2RGB);
     cv.cvtColor(hsvRoi, hsvRoi, cv.COLOR_RGB2HSV);
 
-    colorPicker(coloredCanvas, 0, 0);
+    //cv.blur(hsvRoi, hsvRoi, ksize, anchor, cv.BORDER_DEFAULT);
+
+    let rgba = rgbaColorPicker(coloredCanvas, rectPoints[0].x + (rectWidthHeight/2), rectPoints[0].y + (rectWidthHeight/2) -2 );
 
     cv.line(hsvRoi, rectPoints[0], rectPoints[1], color, thickness);
     cv.line(hsvRoi, rectPoints[1], rectPoints[2], color, thickness);
@@ -71,11 +74,9 @@ export function initialCanvas(scale, rectWidthHeight) {
 
     cv.putText(hsvRoi, 'object', textPosition, cv.FONT_HERSHEY_SIMPLEX , fontSize, textColor, thickness, cv.LINE_AA);
 
-    //cv.blur(hsvRoi, hsvRoi, ksize, anchor, cv.BORDER_DEFAULT);
-
     cv.imshow(coloredCanvas, hsvRoi);
 
     hsvRoi.delete();
 
-    return rectPoints[0];
+    return [rectPoints[0], rgba];
 }

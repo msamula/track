@@ -39,6 +39,7 @@ const maxFrames = Infinity;
 let frameCounter = 0;
 const rectWidthHeight = 120;
 let rectPoints;
+let rgba;
 let initialCanvasInterval;
 
 trackBtn.addEventListener('click', ()=>{
@@ -52,7 +53,7 @@ trackBtn.addEventListener('click', ()=>{
 
     clearInterval(initialCanvasInterval);
 
-    initCamShift(scale, rectPoints, rectWidthHeight);
+    initCamShift(scale, rectPoints, rectWidthHeight, rgba);
 
     run();
 });
@@ -92,7 +93,7 @@ function initialOpenCV(){
     //initTemplateMatching(videoToCanvas, output);
 
     initialCanvasInterval = setInterval(()=>{
-        rectPoints = initialCanvas(scale, rectWidthHeight);
+        [rectPoints, rgba] = initialCanvas(scale, rectWidthHeight);
     },33.33);
 }
 
