@@ -7,7 +7,7 @@ import '../css/custom.css';
 import {camShift, initCamShift} from "./openCVFunctions/camShift";
 import {initialCanvas} from "./openCVFunctions/initialCanvas";
 import {initGameCanvas, play} from "./game/game";
-import {cssRoot} from "./not used/functions";
+import {cssRoot} from "./helper/rootCSS";
 
 /*BUTTON EVENTS*/
 const trackBtn = document.getElementById('trackBtn');
@@ -34,7 +34,7 @@ const videoToCanvasCtx = videoToCanvas.getContext('2d', {willReadFrequently: tru
 
 /*SETTINGS*/
 
-const scale = 1.5;
+const scale = 1;
 const maxFrames = Infinity;
 let frameCounter = 0;
 const rectWidthHeight = 120;
@@ -44,7 +44,7 @@ let initialCanvasInterval;
 trackBtn.addEventListener('click', ()=>{
 
     video.hidden            = true;
-    videoToCanvas.hidden    = true;
+    //videoToCanvas.hidden    = true;
     coloredCanvas.hidden    = true;
     gameCanvas.hidden       = false;
 

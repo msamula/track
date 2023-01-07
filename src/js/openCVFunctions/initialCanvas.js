@@ -1,3 +1,5 @@
+import {colorPicker} from "../helper/colorPicker";
+
 let video, cap, frame, hsvRoi, coloredCanvas, initialized = false;
 
 let rectPoints, textPosition;
@@ -58,6 +60,7 @@ export function initialCanvas(scale, rectWidthHeight) {
     cv.cvtColor(frame, hsvRoi, cv.COLOR_RGBA2RGB);
     cv.cvtColor(hsvRoi, hsvRoi, cv.COLOR_RGB2HSV);
 
+    colorPicker(coloredCanvas, 0, 0);
 
     cv.line(hsvRoi, rectPoints[0], rectPoints[1], color, thickness);
     cv.line(hsvRoi, rectPoints[1], rectPoints[2], color, thickness);

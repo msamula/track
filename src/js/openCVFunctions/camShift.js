@@ -26,8 +26,8 @@ export function initCamShift(scale, rectPoints, rectWidthHeight){
 
 
     let mask = new cv.Mat();
-    let lowScalar = new cv.Scalar(30, 30, 0);
-    let highScalar = new cv.Scalar(180, 180, 180);
+    let lowScalar = new cv.Scalar(0, 70, 120);
+    let highScalar = new cv.Scalar(100, 170, 220);
     let low = new cv.Mat(hsvRoi.rows, hsvRoi.cols, hsvRoi.type(), lowScalar);
     let high = new cv.Mat(hsvRoi.rows, hsvRoi.cols, hsvRoi.type(), highScalar);
 
@@ -65,6 +65,8 @@ export function camShift(output) {
      cv.cvtColor(hsv, hsv, cv.COLOR_RGB2HSV);
 
      cv.calcBackProject(hsvVec, [0], roiHist, dst, [0, 180], 1);
+
+     cv.imshow('videoToCanvas', dst);
 
      [trackBox, trackWindow] = cv.CamShift(dst, trackWindow, termCrit);
 
