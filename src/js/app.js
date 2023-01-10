@@ -34,7 +34,7 @@ const videoToCanvasCtx = videoToCanvas.getContext('2d', {willReadFrequently: tru
 
 /*SETTINGS*/
 
-const scale = 1;
+const scale = 1.5;
 const maxFrames = Infinity;
 let frameCounter = 0;
 const rectWidthHeight = 120;
@@ -110,7 +110,7 @@ function main(){
         gameCanvas.width  = videoToCanvas.width  = output.width  = video.videoWidth / scale;
         gameCanvas.height = videoToCanvas.height = output.height = video.videoHeight / scale;
 
-        cssRoot(),
+        cssRoot();
 
         trackBtn.disabled = false;
 

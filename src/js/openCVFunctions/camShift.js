@@ -1,5 +1,8 @@
-
 let video, cap, frame, trackWindow, trackBox, dst, roiHist, termCrit, hsv, hsvVec;
+
+const channels = [0];
+const histSize = [180];
+const ranges = [0, 180];
 
 export function initCamShift(scale, rectPoints, rectWidthHeight, rgba){
 
@@ -39,7 +42,7 @@ export function initCamShift(scale, rectPoints, rectWidthHeight, rgba){
     let hsvRoiVec = new cv.MatVector();
     hsvRoiVec.push_back(hsvRoi);
 
-    cv.calcHist(hsvRoiVec, [0], mask, roiHist, [180], [0, 180]);
+    cv.calcHist(hsvRoiVec, channels, mask, roiHist, histSize, ranges);
     cv.normalize(roiHist, roiHist, 0, 255, cv.NORM_MINMAX);
 
 // delete useless mats.
@@ -65,7 +68,7 @@ export function camShift(output) {
      cv.cvtColor(frame, hsv, cv.COLOR_RGBA2RGB);
      cv.cvtColor(hsv, hsv, cv.COLOR_RGB2HSV);
 
-     cv.calcBackProject(hsvVec, [0], roiHist, dst, [0, 180], 1);
+     cv.calcBackProject(hsvVec, channels, roiHist, dst, ranges, 1);
 
      cv.imshow('videoToCanvas', dst);
 

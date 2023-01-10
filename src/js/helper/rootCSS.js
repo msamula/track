@@ -31,7 +31,7 @@ export function cssRoot(){
     let windowWidth = getWindowWidth();
     let windowHeight = getWindowHeight();
 
-    let scale = (windowHeight * 0.6) / video.videoHeight;
+    let scale = (windowHeight * 1) / video.videoHeight;
 
     changeCSS(windowWidth,windowHeight, scale);
 }
